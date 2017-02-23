@@ -46,7 +46,8 @@ func deleteCallback(scope *Scope) {
 			)).Exec()
 		} else {
 			scope.Raw(fmt.Sprintf(
-				"DELETE FROM %v%v%v",
+				"DELETE FROM %v WHERE id IN (SELECT id FROM (SELECT id FROM %v%v%v) as x)",
+				scope.QuotedTableName(),
 				scope.QuotedTableName(),
 				addExtraSpaceIfExist(scope.CombinedConditionSql()),
 				addExtraSpaceIfExist(extraOption),
